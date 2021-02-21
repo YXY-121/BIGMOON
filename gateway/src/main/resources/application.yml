@@ -1,0 +1,64 @@
+server:
+  port: 9000
+
+spring:
+  cloud:
+    gateway:
+      ##动态路由 约定大于配置 通过nacos服务名字去调用
+#      discovery:
+#        locator:
+#          enabled: on
+      #    lower-case-service-id: on 是否开启 将服务名转成小写来配置 服务名是userCenter-》被调用时就要写成usercenter
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+
+      routes:
+        #静态路由
+#        - id: nacos-studyScore
+#          uri: http://localhost:8001/
+#          predicates:
+#            - Path=/service_studyScore/**
+#        - id: nacos-userCenter
+#          uri: http://localhost:8003/
+#          predicates:
+#            - Path=/service_userCenter/**
+
+    ##动态路由 基于服务中心来路由 端口不写死
+          - id: nacos-studyScore
+            uri: lb://nacos-studyScore # 这是nacos里的服务名称
+            predicates:
+              - Path=/service_studyScore/**
+
+
+          - id: service-userCenter
+            uri: lb://service-userCenter
+            predicates:
+              - Path=/service_userCenter/**
+
+          - id: service-oss
+            uri: lb://service-oss
+            predicates:
+              - Path=/service_oss/**
+#            filters:
+#              - PrefixPath=/service_userCenter  #用来隐藏前缀？ 隐藏模块名字吗。。
+
+          - id: service-self
+            uri: lb://service-self
+            predicates:
+              - Path=/service_self/**
+
+
+
+
+
+
+    nacos:
+      server-addr: 127.0.0.1:8848
+  application:
+    name: service_gateway
