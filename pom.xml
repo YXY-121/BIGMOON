@@ -30,7 +30,7 @@
     <spring.nacos.version>2.2.0.RELEASE</spring.nacos.version>
     <aliyun-sdk-oss.version>3.1.0</aliyun-sdk-oss.version>
     <jodatime.version>2.10.1</jodatime.version>
-    <spring.boot.web.version>2.2.1.RELEASE</spring.boot.web.version>
+    <spring.boot.web.version>2.5.12</spring.boot.web.version>
 
 </properties>
     <dependencyManagement>
